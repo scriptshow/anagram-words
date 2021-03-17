@@ -1,0 +1,20 @@
+version: "1.0"
+services:
+  web:
+    build: . # compile docker image from current directory
+    ports:
+      - "5000:5000"
+    environment:
+      ANAGRAM_DB_HOST: ${SERVER_DB_HOST}
+      ANAGRAM_DB_PORT: ${SERVER_DB_PORT}
+      ANAGRAM_DB_NAME: ${SERVER_DB_NAME}
+      ANAGRAM_DB_USER: ${SERVER_DB_USER}
+      ANAGRAM_DB_PASS: ${SERVER_DB_PASS}
+  database:
+    image: "postgres" # use latest official postgres version
+    environment:
+      POSTGRES_USER: ${SERVER_DB_USER}
+      POSTGRES_PASSWORD: ${SERVER_DB_PASS}
+      POSTGRES_DB: ${SERVER_DB_NAME}
+    volumes:
+      - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
