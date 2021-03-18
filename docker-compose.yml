@@ -10,6 +10,8 @@ services:
       ANAGRAM_DB_NAME: ${SERVER_DB_NAME}
       ANAGRAM_DB_USER: ${SERVER_DB_USER}
       ANAGRAM_DB_PASS: ${SERVER_DB_PASS}
+      ANAGRAM_LOG_LEVEL: ${ANAGRAM_LOG_LEVEL}
+      ANAGRAM_SECRET_KEY: ${ANAGRAM_SECRET_KEY}
   database:
     image: "postgres" # use latest official postgres version
     environment:

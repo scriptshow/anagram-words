@@ -7,6 +7,9 @@ ENV ANAGRAM_DB_PORT 'DATABASE_PORT_HERE'
 ENV ANAGRAM_DB_USER 'DATABASE_USERNAME_HERE'
 ENV ANAGRAM_DB_PASS 'DATABASE_PASSWORD_HERE'
 
+ENV ANAGRAM_LOG_LEVEL 'LOG_LEVEL'
+ENV ANAGRAM_SECRET_KEY 'SECRET_KEY'
+
 # change work directory
 RUN mkdir -p /anagram-words
 WORKDIR /anagram-words
@@ -15,6 +18,10 @@ ADD ./ /anagram-words/
 RUN pip install -r requirements.txt
 
 EXPOSE 5000
+
+RUN python app.py db init
+RUN python app.py db migrate
+RUN python app.py db upgrade
 
 # Comment this line once tests done
 ENTRYPOINT ["./gunicorn_starter.sh"]
