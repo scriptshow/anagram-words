@@ -1,6 +1,7 @@
 from flask_restful import Resource, http_status_message
 from flask import request
 from models.user import UserModel
+from shared.utils import password_strength_check
 
 
 class UserSignup(Resource):
@@ -20,15 +21,19 @@ class UserSignup(Resource):
         if 'username' in json_data and 'password' in json_data:
             username = json_data['username']
             password = json_data['password']
-            user = UserModel.query.filter_by(username=username).first()
-            if not user:
-                user = UserModel(username=username, password=password)
-                user.create()
-                response = {"token": user.generate_auth_token(secret_key=self.secret_key)}
-                http_code = 201
+            if password_strength_check(password):
+                user = UserModel.query.filter_by(username=username).first()
+                if not user:
+                    user = UserModel(username=username, password=password)
+                    user.create()
+                    response = {"token": user.generate_auth_token(secret_key=self.secret_key)}
+                    http_code = 201
+                else:
+                    response = "User already exists"
+                    http_code = 403
             else:
-                response = "User already exists"
-                http_code = 403
+                response = "Password does not match the security checks"
+                http_code = 406
         else:
             http_code = 400
             response = http_status_message(http_code)

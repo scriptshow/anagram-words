@@ -1,5 +1,5 @@
 from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
-from shared.encryption import encrypt, verify
+from shared.utils import encrypt, verify_password_match
 from shared.database import db
 from shared.authentication import auth
 from shared.config import SECRET_KEY
@@ -28,7 +28,7 @@ class UserModel(db.Model):
         return self.password_hash
 
     def verify_password(self, password):
-        return verify(password.encode('utf-8'), self.password_hash)
+        return verify_password_match(password.encode('utf-8'), self.password_hash)
 
     def generate_auth_token(self, secret_key=None, expiration=600):
         if secret_key:
