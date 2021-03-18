@@ -49,7 +49,11 @@ ANAGRAM_SECRET_KEY -> Secret key to secure JWT authentication
 
 Open a command line into the folder where docker-compose.yml is present.
 
-Execute the following command:
+Execute the following command to build the docker-compose:
+
+`docker-compose build`
+
+Execute the following command to run the docker-compose:
 
 `docker-compose up`
 

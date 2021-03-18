@@ -19,9 +19,5 @@ RUN pip install -r requirements.txt
 
 EXPOSE 5000
 
-RUN python app.py db init
-RUN python app.py db migrate
-RUN python app.py db upgrade
-
 # Comment this line once tests done
 ENTRYPOINT ["./gunicorn_starter.sh"]
